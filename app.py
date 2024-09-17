@@ -4,7 +4,9 @@ from flask_caching import Cache
 import asyncio
 
 # IMPORT DES MODULES 
-from modules.date import chiffre_intoMonth, anglais_intoJourFrancais, testChiffreJour, testMoisNumero
+from modules.date import Date
+date = Date()
+
 from modules.scraping import scrap_infoFilm, get_data, cleanFilms
 from modules.urlGenerator import decalageDate
 
@@ -14,43 +16,7 @@ cache = Cache(app, config={'CACHE_TYPE': 'simple'})
 @app.route('/')
 @cache.cached(timeout=3600)
 def home():
-    date = {
-        "jour1" : {
-            "jour" : anglais_intoJourFrancais(datetime.today().strftime("%A"), 0),
-            "chiffre" : testChiffreJour(datetime.today().day, 0),
-            "mois" : testMoisNumero(datetime.today().day, 0)
-        },
-        "jour2" : {
-            "jour" : anglais_intoJourFrancais(datetime.today().strftime("%A"), 1),
-            "chiffre" : testChiffreJour(datetime.today().day, 1),
-            "mois" : testMoisNumero(datetime.today().day, 1)
-        },
-        "jour3" : {
-            "jour" : anglais_intoJourFrancais(datetime.today().strftime("%A"), 2),
-            "chiffre" : testChiffreJour(datetime.today().day, 2),
-            "mois" : testMoisNumero(datetime.today().day, 2)
-        },
-        "jour4" : {
-            "jour" : anglais_intoJourFrancais(datetime.today().strftime("%A"), 3),
-            "chiffre" : testChiffreJour(datetime.today().day, 3),
-            "mois" : testMoisNumero(datetime.today().day, 3)
-        },
-        "jour5" : {
-            "jour" : anglais_intoJourFrancais(datetime.today().strftime("%A"), 4),
-            "chiffre" : testChiffreJour(datetime.today().day, 4),
-            "mois" : testMoisNumero(datetime.today().day, 4)
-        },
-        "jour6" : {
-            "jour" : anglais_intoJourFrancais(datetime.today().strftime("%A"), 5),
-            "chiffre" : testChiffreJour(datetime.today().day, 5),
-            "mois" : testMoisNumero(datetime.today().day, 5)
-        },
-        "jour7" : {
-            "jour" : anglais_intoJourFrancais(datetime.today().strftime("%A"), 6),
-            "chiffre" : testChiffreJour(datetime.today().day, 6),
-            "mois" : testMoisNumero(datetime.today().day, 6)
-        }
-    }
+    date = date.getDatesList()
 
     cinemas = [
         {
@@ -167,7 +133,7 @@ def jour1():
         },
         {
             "salle" : "MK2 Bibliothèque",
-            "url" : decalageDate("https://www.allocine.fr/seance/salle_gen_csalle=C2954.html#shwt_date=l",1)
+            "url" : decalageDate("https://www.allocine.fr/seance/salle_gen_csalle=C2954.html#shwt_date=",1)
         },
         {
             "salle" : "MK2 Beaubourg",

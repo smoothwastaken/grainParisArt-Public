@@ -1,0 +1,9 @@
+{
+    "cinemas": {
+        "1": {
+            "name" : "Écoles Cinéma Club",
+            "url" : "https://www.allocine.fr/seance/salle_gen_csalle=C0071.html",
+            "location" : [2.348973, 48.848363]
+        }
+    }
+}

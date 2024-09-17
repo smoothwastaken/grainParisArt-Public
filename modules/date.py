@@ -1,200 +1,158 @@
 import time 
 from datetime import datetime
 
-# Converti les mois en chiffre en lettres
-def chiffre_intoMonth(month):
-        match month:
-            case 1:
-                return 'janvier'
-            case 2:
-                return 'février'
-            case 3:
-                return 'mars'
-            case 4:
-                return 'avril'
-            case 5:
-                return 'mai'
-            case 6:
-                return 'juin'
-            case 7:
-                return 'juillet'
-            case 8:
-                return 'août'
-            case 9:
-                return 'septembre'
-            case 10:
-                return 'octobre'
-            case 11:
-                return 'novembre'
-            case 12:
-                return 'décembre'
-            case _:
-                return 'invalid month'
+class Date(object):
+    
+    months = {
+            1: {
+                'name': 'janvier',
+                'days': 31
+            },
+            2: {
+                'name': 'février',
+                'days': 28
+            },
+            3: {
+                'name': 'mars',
+                'days': 31
+            },
+            4: {
+                'name': 'avril',
+                'days': 30
+            },
+            5: {
+                'name': 'mai',
+                'days': 31
+            },
+            6: {
+                'name': 'juin',
+                'days': 30
+            },
+            7: {
+                'name': 'juillet',
+                'days': 31
+            },
+            8: {
+                'name': 'août',
+                'days': 31
+            },
+            9: {
+                'name': 'septembre',
+                'days': 30
+            },
+            10: {
+                'name': 'octobre',
+                'days': 31
+            },
+            11: {
+                'name': 'novembre',
+                'days': 30
+            },
+            12: {
+                'name': 'décembre',
+                'days': 31
+            }
+        }
+    
+    days = {
+        1: {
+            'fr': 'lundi',
+            'eng': 'Monday'
+        },
+        2: {
+            'fr': 'mardi',
+            'eng': 'Tuesday'
+        },
+        3: {
+            'fr': 'mercredi',
+            'eng': 'Wednesday'
+        },
+        4: {
+            'fr': 'jeudi',
+            'eng': 'Thursday'
+        },
+        5: {
+            'fr': 'vendredi',
+            'eng': 'Friday'
+        },
+        6: {
+            'fr': 'samedi',
+            'eng': 'Saturday'
+        },
+        7: {
+            'fr': 'dimanche',
+            'eng': 'Sunday'
+        }
+    }
+    
+    def __init__(self) -> None:
+        """Initialise la classe Date
+        """
+        # Vérifie si l'année est bissextile et modifie le dictionnaire du nombre de jours de février
+        self.months[2]['days'] = 29 if self.isBesextile(datetime.today().year) else 28
+    
+    def isBesextile(self, year: int) -> bool:
+        """Vérifie si une année est bissextile
 
-# Calcule le décallage des jours et traduits en lettres
-def anglais_intoJourFrancais(jour, decalage):
-    if decalage == 0:
-        match jour:
-            case "Monday":
-                return 'lun'
-            case 'Tuesday':
-                return 'mar'
-            case 'Wednesday':
-                return 'mer'
-            case 'Thursday':
-                return 'jeu'
-            case 'Friday':
-                return 'ven'
-            case 'Saturday':
-                return 'sam'
-            case 'Sunday':
-                return 'dim'
-            case _:
-                return 'invalid jour'
-    elif decalage == 1:
-        match jour:
-            case "Monday":
-                return 'mar'
-            case 'Tuesday':
-                return 'mer'
-            case 'Wednesday':
-                return 'jeu'
-            case 'Thursday':
-                return 'ven'
-            case 'Friday':
-                return 'sam'
-            case 'Saturday':
-                return 'dim'
-            case 'Sunday':
-                return 'lun'
-            case _:
-                return 'invalid jour'
-    elif decalage == 2:
-        match jour:
-            case "Monday":
-                return 'mer'
-            case 'Tuesday':
-                return 'jeu'
-            case 'Wednesday':
-                return 'ven'
-            case 'Thursday':
-                return 'sam'
-            case 'Friday':
-                return 'dim'
-            case 'Saturday':
-                return 'lun'
-            case 'Sunday':
-                return 'mar'
-            case _:
-                return 'invalid jour'
-    elif decalage == 3:
-        match jour:
-            case "Monday":
-                return 'jeu'
-            case 'Tuesday':
-                return 'ven'
-            case 'Wednesday':
-                return 'sam'
-            case 'Thursday':
-                return 'dim'
-            case 'Friday':
-                return 'lun'
-            case 'Saturday':
-                return 'mar'
-            case 'Sunday':
-                return 'mer'
-            case _:
-                return 'invalid jour'
-    elif decalage == 4:
-        match jour:
-            case "Monday":
-                return 'ven'
-            case 'Tuesday':
-                return 'sam'
-            case 'Wednesday':
-                return 'dim'
-            case 'Thursday':
-                return 'lun'
-            case 'Friday':
-                return 'mar'
-            case 'Saturday':
-                return 'mer'
-            case 'Sunday':
-                return 'jeu'
-            case _:
-                return 'invalid jour'
-    elif decalage == 5:
-        match jour:
-            case "Monday":
-                return 'sam'
-            case 'Tuesday':
-                return 'dim'
-            case 'Wednesday':
-                return 'lun'
-            case 'Thursday':
-                return 'mar'
-            case 'Friday':
-                return 'mer'
-            case 'Saturday':
-                return 'jeu'
-            case 'Sunday':
-                return 'ven'
-            case _:
-                return 'invalid jour'
-    elif decalage == 6:
-        match jour:
-            case "Monday":
-                return 'dim'
-            case 'Tuesday':
-                return 'lun'
-            case 'Wednesday':
-                return 'mar'
-            case 'Thursday':
-                return 'mer'
-            case 'Friday':
-                return 'jeu'
-            case 'Saturday':
-                return 'ven'
-            case 'Sunday':
-                return 'sam'
-            case _:
-                return 'invalid jour'
+        Args:
+            year (int): L'année à vérifier
 
-def testChiffreJour(chiffre, decalage):
-    today = datetime.today()
-    month = today.month
+        Returns:
+            bool: True si l'année est bissextile, False sinon
+        """
+        return (year % 4 == 0 and year % 100 != 0) or (year % 400 == 0)
+    
+    def intToMonth(self, month: int) -> str:
+        """Convertit un chiffre en mois
 
-    if month in [1, 3, 5, 7, 8, 10, 12]:
-        max_days = 31
-    elif month == 2:
-        if (today.year % 4 == 0 and today.year % 100 != 0) or (today.year % 400 == 0):
-            max_days = 29
-        else:
-            max_days = 28
-    else:
-        max_days = 30
+        Args:
+            month (int): Le chiffre du mois
 
-    if chiffre + decalage > max_days:
-        return chiffre + decalage - max_days
-    else:
-        return chiffre + decalage
+        Returns:
+            str: Le mois en lettres
+        """
+        return self.months[month]['name']
+    
+    def engDayToFr(self, jour: str) -> str:
+        """Convertit un jour en anglais en français
 
-def testMoisNumero(chiffre, decalage):
-    today = datetime.today()
-    month = today.month
+        Args:
+            jour (str): Le jour en anglais
+            decalage (int, optional): Le décalage à appliquer. Defaults to 0.
 
-    if month in [1, 3, 5, 7, 8, 10, 12]:
-        max_days = 31
-    elif month == 2:
-        if (today.year % 4 == 0 and today.year % 100 != 0) or (today.year % 400 == 0):
-            max_days = 29
-        else:
-            max_days = 28
-    else:
-        max_days = 30
+        Returns:
+            str: Le jour en français
+        """
+        for day in self.days:
+            if self.days[day]['eng'].lower() == jour.lower():
+                return self.days[day.key()]['fr'][:3]
+    
+    def getDate(self, shift: int) -> str:
+        """Renvoie la date du jour
+        
+        Args:
+            shift (int): Le décalage à appliquer
 
-    if chiffre + decalage > max_days:
-        next_month = month + 1 if month < 12 else 1
-        return chiffre_intoMonth(next_month)
-    else:
-        return chiffre_intoMonth(month)
+        Returns:
+            str: La date du jour
+        """
+        # Récupère la date du jour
+        day = datetime.today()
+        
+        # Applique le décalage
+        for _ in range(shift):
+            day = day + datetime.timedelta(days=1)
+        
+        # Renvoie les informations du jour concerné
+        return {
+            "jour": self.engDayToFr(day.strftime('%A')),
+            "chiffre": day.day,
+            "mois": day.month,
+        }
+        
+    def getDatesList(self, numberOfDay: int = 7):
+        dateList = {}
+        for dayShift in range(7):
+            dateList[f'jour{dayShift}'] = self.getDate(dayShift)
+            
+        return dateList
